@@ -1,10 +1,25 @@
 @()
 
 @main("Band Name Generator") {
-<p>this is where the form will be</p>
+  <p>form</p>
 
-<form ng-submit="processForm()">
-<input type="submit" />
-</form>
-
+  <form ng-submit="processForm()">
+    <p ng-repeat="recipe in formData.recipes">
+      <input type="checkbox" name="activeRecipes[]" value="{{recipe.name}}" ng-model="recipe.selected" /> {{recipe.example}} <br />
+    </p>
+    Uncommon word probability:
+    <input type="text" ng-model="uncommonProbability" name="uncommonProbability" smart-float>
+    <br/>
+    band name count:
+    <input type="text" ng-model="nameCount" name="nameCount" min="1" max="30" integer>
+    <br/>
+    <input type="submit" />
+  </form>
+  <p />
+  <h3>BandNames:</h3>
+  <table>
+  <tr ng-repeat="bandName in bandNames">
+    <td>{{bandName}}</td>
+  </tr>
+  </table>
 }
