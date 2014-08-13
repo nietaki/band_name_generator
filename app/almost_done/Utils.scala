@@ -19,7 +19,7 @@ object Utils {
     }
   }
 
-  def getTopWords(count: Int = 10000): Iterator[String] = {
+  def getTopWords(count: Int = 20000): Iterator[String] = {
     Source.fromFile("data/top10000en.txt").getLines().take(count)
   }
 
