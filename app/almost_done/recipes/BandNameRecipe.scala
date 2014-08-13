@@ -9,13 +9,13 @@ trait BandNameRecipe {
   def requirements: List[SpeechPart]
   def stitcher: PartialFunction[List[Word], String]
 
-  def generateName: String = {
-    val words = requirements.map({sp => Words.getRandom(sp)})
+  def generateName(wordProvider: SpeechPart => Word): String = {
+    val words = requirements.map(wordProvider)
     assert(words.length == requirements.length)
     stitcher(words)
   }
 
-  def generateNames(count: Int): IndexedSeq[String] = {
-    (1 to count).map({_ => generateName})
+  def generateNames(wordProvider: SpeechPart => Word)(count: Int): IndexedSeq[String] = {
+    (1 to count).map({_ => generateName(wordProvider)})
   }
 }

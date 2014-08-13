@@ -52,7 +52,7 @@ object Words {
 
 
   def getRandom(sp: SpeechPart): Word = Utils.randomElement(speechPartWordsMap(sp))
-  def getRandomWithUncommonProbability(sp: SpeechPart, probability: Double): Word = {
+  def getRandomWithUncommonProbability(probability: Double)(sp: SpeechPart): Word = {
     val (commons, uncommons) = commonAndUncommonWordsMap(sp)
     Utils.eitherWithProbability(Utils.randomElement(commons), Utils.randomElement(uncommons))(1.0 - probability)
   }

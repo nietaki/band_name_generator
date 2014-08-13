@@ -14,9 +14,11 @@ object Application extends Controller {
   }
 
   def getBandNames = Action {rh =>
-    val tws = recipes.TheWhiteStripes.generateNames(10)
-    val atc = recipes.AlvinAndTheChipmunks.generateNames(10)
-    val gd = recipes.GreenDay.generateNames(10)
+    val uProb = 0.0
+    val provider: (SpeechPart) => Word = Words.getRandomWithUncommonProbability(uProb)
+    val tws = recipes.TheWhiteStripes.generateNames(provider)(10)
+    val atc = recipes.AlvinAndTheChipmunks.generateNames(provider)(10)
+    val gd = recipes.GreenDay.generateNames(provider)(10)
     val bandNames = Random.shuffle(tws ++ atc ++ gd)
 
     val ret = JsArray(bandNames.map(JsString(_)))
