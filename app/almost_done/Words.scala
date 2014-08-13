@@ -4,7 +4,20 @@ package net.almost_done
  * Created by nietaki on 12.08.14.
  */
 object Words {
-  val all: Vector[Word] = Utils.getWords.toVector
+  val topWords = Utils.getTopWords().map(_.toLowerCase).toSet
+
+  val all: Vector[Word] = {
+    val allWithoutCommonality = Utils.getWords.toVector
+    allWithoutCommonality.map({w =>
+      if(topWords.contains(w.word.toLowerCase)){
+        w.common
+      } else {
+        w
+      }
+    })
+  }
+
+
   val nouns = all.filter(_.isSimpleNoun)
   val nounPhrases = all.filter(_.isNounPhrase)
   val nounLike = all.filter(w => w.isNounLike)
@@ -29,6 +42,19 @@ object Words {
     (Adverb, adverbs)
   )
 
+  val commonAndUncommonWordsMap: Map[SpeechPart, (Vector[Word], Vector[Word])] = {
+    speechPartWordsMap.map({case(sp, wv) =>
+      val partition = wv.partition(_.isCommon)
+      (sp, partition)
+    })
+  }
+
+
+
   def getRandom(sp: SpeechPart): Word = Utils.randomElement(speechPartWordsMap(sp))
+  def getRandomWithUncommonProbability(sp: SpeechPart, probability: Double): Word = {
+    val (commons, uncommons) = commonAndUncommonWordsMap(sp)
+    Utils.eitherWithProbability(Utils.randomElement(commons), Utils.randomElement(uncommons))(1.0 - probability)
+  }
 }
 

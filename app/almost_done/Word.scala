@@ -3,7 +3,7 @@ package net.almost_done
 /**
  * Created by nietaki on 12.08.14.
  */
-case class Word(word: String, flags: String) {
+case class Word(word: String, flags: String, isCommon: Boolean) {
   def hasFlag(char: Char): Boolean = flags.contains(char)
 
   def isSimpleNoun = hasFlag('N')
@@ -44,13 +44,20 @@ case class Word(word: String, flags: String) {
         case 'y' => word.init + "ies"
         case _ => word + "s"
       }
-      Some(Word(newWord, flags + "p"))
+      Some(Word(newWord, flags + "p", isCommon))
     } else {
       None
     }
   }
 
-  def capitalized: Word = Word(word.capitalize, flags)
+  def isSameCaseInsensitive(other: String): Boolean = {
+    word.equalsIgnoreCase(other)
+  }
+
+  def capitalized: Word = Word(word.capitalize, flags, isCommon)
+
+  def withCommon(c: Boolean) = this.copy(isCommon = c)
+  def common = this.withCommon(true)
 
   override def toString: String = word
 }
