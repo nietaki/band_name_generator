@@ -13,9 +13,9 @@ object Application extends Controller {
     Ok(views.html.index())
   }
 
-  def getBandNames = Action {rh =>
-    val uProb = 0.0
-    val provider: (SpeechPart) => Word = Words.getRandomWithUncommonProbability(uProb)
+  def getBandNames(uncommonProbability: Double, count: Int) = Action {rh =>
+    //TODO: make the count count
+    val provider: (SpeechPart) => Word = Words.getRandomWithUncommonProbability(uncommonProbability)
     val tws = recipes.TheWhiteStripes.generateNames(provider)(10)
     val atc = recipes.AlvinAndTheChipmunks.generateNames(provider)(10)
     val gd = recipes.GreenDay.generateNames(provider)(10)
