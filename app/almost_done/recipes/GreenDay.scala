@@ -10,4 +10,6 @@ object GreenDay extends BandNameRecipe{
   override def stitcher: PartialFunction[List[Word], String] = {
     case adj :: nounLike :: Nil => s"${adj.capitalized.word} ${nounLike.capitalized.word}"
   }
+
+  override def recipeName: String = "GreenDay"
 }

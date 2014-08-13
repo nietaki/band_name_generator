@@ -18,4 +18,20 @@ trait BandNameRecipe {
   def generateNames(wordProvider: SpeechPart => Word)(count: Int): IndexedSeq[String] = {
     (1 to count).map({_ => generateName(wordProvider)})
   }
+
+  def recipeName: String
+}
+
+object BandNameRecipe {
+  val recipes: List[BandNameRecipe] = AlvinAndTheChipmunks :: GreenDay :: TheWhiteStripes :: Nil
+  val recipesMap = recipes.map({r => (r.recipeName, r)}).toMap
+
+  def getRecipesByNames(names: Seq[String]): Seq[BandNameRecipe] = {
+    names.flatMap({name =>
+      recipesMap.get(name) match {
+        case None => Nil
+        case Some(recipe) => recipe :: Nil
+      }
+    })
+  }
 }

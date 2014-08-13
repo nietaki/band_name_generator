@@ -11,4 +11,6 @@ object TheWhiteStripes extends BandNameRecipe{
   override def stitcher: PartialFunction[List[Word], String] = {
     case adj :: plural :: Nil => s"the ${adj.capitalized.word} ${plural.capitalized.word}"
   }
+
+  override def recipeName: String = "TheWhiteStripes"
 }

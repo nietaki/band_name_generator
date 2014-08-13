@@ -17,6 +17,11 @@
       {
         name: 'TheWhiteStripes',
         example: 'The White Stripes',
+        selected: true
+      },
+      {
+        name: 'AlvinAndTheChipmunks',
+        example: 'Alvin And The Chipmunks',
         selected: false
       }
     ]
@@ -29,7 +34,12 @@
     $scope.processForm = function() {
       console.log('processForm')
       var addr = '/bandNames/' +  $scope.uncommonProbability + '/' + $scope.nameCount
-      $http.post(addr, $scope.formData)
+      $http({
+        method: 'POST',
+        url: addr,
+        data: $scope.formData,
+        headers: { 'Content-Type': 'application/json' }
+      })
         .success(function(data){
           console.log('success')
           console.log(data)
@@ -37,6 +47,8 @@
         })
         .error(function(data){console.log('error'); console.log(data)})
     }
+
+    $scope.processForm();
   });
 
 })();
